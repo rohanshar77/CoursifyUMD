@@ -18,6 +18,8 @@ async def create_pinecone_context(major, desired_industry, interests):
     for interest in interests:
         interests_questions.append(f"I am interested in {interest}")
 
+
+
     # Get the embeddings each category
     major_embedding = client.embeddings.create(input=major_question, model='text-embedding-ada-002').data[0].embedding
     desired_career_embedding = client.embeddings.create(input=desired_career_question, model='text-embedding-ada-002').data[0].embedding
@@ -124,6 +126,22 @@ async def query_pinecone(major, desired_industry, interests):
                 interest_courses[match.id] = course
 
     return major_courses, career_courses, interest_courses
+
+
+async def filter_freshman(major_courses, career_courses, interest_courses):
+    def is_freshman_course(course):
+        # Extract the numeric part of the course ID
+        numeric_part = ''.join(filter(str.isdigit, course['id']))
+        # Check if the numeric part starts with '4'
+        return not numeric_part.startswith('4')
+
+    # Filter the courses in each list to exclude those that are 400-level
+    filtered_major_courses = [course for course in major_courses if is_freshman_course(course)]
+    filtered_career_courses = [course for course in career_courses if is_freshman_course(course)]
+    filtered_interest_courses = [course for course in interest_courses if is_freshman_course(course)]
+
+    return filtered_major_courses, filtered_career_courses, filtered_interest_courses
+
 
 async def main():
     result = await query_pinecone("Computer Science", "Backend Engineer", ["Weightlifting", "Cars"])
