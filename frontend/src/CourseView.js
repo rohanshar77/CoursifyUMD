@@ -38,7 +38,8 @@ function CourseView({ courses }) {
                             <Text fontWeight="semibold" fontSize="sm">
                                 {`Top Professor: ${course.top_prof} `}
                                 {(course.top_rating === -1) ? '(No ratings)' : `(Rating: ${course.top_rating})`}
-                            </Text>                        </VStack>
+                            </Text>
+                        </VStack>
                     </Box>
                 ))}
             </Grid>

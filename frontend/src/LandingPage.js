@@ -184,8 +184,6 @@ function LandingPage() {
                             <CourseView courses={coursesCareer}></CourseView>
                             <HStack mt='8'>
                                 <Text fontSize='3xl' me='2' fontWeight='semibold' alignSelf="flex-start" color='green.400'>Based on your interests</Text>
-
-
                             </HStack>
                             <CourseView courses={coursesInterested}></CourseView>
                             <HStack mt='8'>
@@ -198,6 +196,9 @@ function LandingPage() {
                 </Center>
             )}
         </Box>
+
+
+
 
     );
 }
