@@ -10,6 +10,7 @@ from supabase import create_client, Client
 load_dotenv()
 client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
+
 # major and desired_career are Strings, interests is list of Strings, include_grad is a boolean
 async def create_pinecone_context(major, desired_industry, interests):
     # Create questions for each category
@@ -23,7 +24,6 @@ async def create_pinecone_context(major, desired_industry, interests):
     key: str = os.environ.get("SUPABASE_KEY")
     email: str = os.environ.get("SUPABASE_EMAIL")
     password: str = os.environ.get("SUPABASE_PASS")
-    
 
     supabase: Client = create_client(url, key)
 
@@ -32,13 +32,12 @@ async def create_pinecone_context(major, desired_industry, interests):
     input_data = {
         "major_question": major_question,
         "desired_career_question": desired_career_question,
-        "interests_questions": interest_questions
+        "interests_questions": interests_questions
     }
 
     data = supabase.table('user_searches').insert(input_data).execute()
 
     supabase.auth.sign_out()
-
 
     # Get the embeddings each category
     major_embedding = client.embeddings.create(input=major_question, model='text-embedding-ada-002').data[0].embedding
@@ -146,6 +145,22 @@ async def query_pinecone(major, desired_industry, interests):
                 interest_courses[match.id] = course
 
     return major_courses, career_courses, interest_courses
+
+
+async def filter_freshman(major_courses, career_courses, interest_courses):
+    def is_freshman_course(course):
+        # Extract the numeric part of the course ID
+        numeric_part = ''.join(filter(str.isdigit, course['id']))
+        # Check if the numeric part starts with '4'
+        return not numeric_part.startswith('4')
+
+    # Filter the courses in each list to exclude those that are 400-level
+    filtered_major_courses = [course for course in major_courses if is_freshman_course(course)]
+    filtered_career_courses = [course for course in career_courses if is_freshman_course(course)]
+    filtered_interest_courses = [course for course in interest_courses if is_freshman_course(course)]
+
+    return filtered_major_courses, filtered_career_courses, filtered_interest_courses
+
 
 async def main():
     result = await query_pinecone("Computer Science", "Backend Engineer", ["Weightlifting", "Cars"])
