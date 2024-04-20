@@ -4,11 +4,7 @@ import axios from 'axios';
 
 import {
     AbsoluteCenter,
-<<<<<<< HEAD
     Box, Heading, Text, Button, Flex, Select, VStack, Input, Grid, Fade, Center, Divider, Spinner, HStack, Badge
-=======
-    Box, Heading, Text, Button, Flex, Select, VStack, Input, Grid, Fade, Center, Divider
->>>>>>> 44f5dc0241fb4225e282f2d4b7dd001ecebbdf04
 } from '@chakra-ui/react';
 
 import Welcome from './Flow/Welcome';
@@ -24,10 +20,7 @@ function LandingPage() {
     const [year, setYear] = useState()
     const [career, setCareer] = useState("")
     const [selectedInterests, setSelectedInterests] = useState([])
-<<<<<<< HEAD
     const [isLoading, setIsLoading] = useState(false)
-=======
->>>>>>> 44f5dc0241fb4225e282f2d4b7dd001ecebbdf04
 
 
 
