@@ -3,18 +3,43 @@ import { useState } from 'react';
 
 import {
     AbsoluteCenter,
-    Box, Heading, Text, Button, Flex, Select, VStack, Input, Grid
+    Box, Heading, Text, Button, Flex, Select, VStack, Input, Grid, Alert, AlertIcon
 } from '@chakra-ui/react';
 
 
 
 
 function Major(props) {
-    const { togglePage } = props
+    const { togglePage, major, setMajor, career, setCareer, year, setYear } = props
+    const [showWarn, setShowWarn] = useState(false)
+    const handleChange = (event) => {
+        const index = event.target.selectedIndex - 1;
+        setYear(index);
+    };
+
+    const nextPage = () => {
+        console.log(major)
+        console.log(career)
+        console.log(year)
+
+        if (major && career && year != null) {
+            togglePage()
+        } else {
+            setShowWarn(true)
+        }
+
+    };
 
     return (
 
-        <Box width='35rem' height='35rem' shadow='lg' rounded='lg' p='7' textAlign='start'>
+        <Box width='35rem' minH='35rem' shadow='lg' rounded='lg' p='7' textAlign='start'>
+            {showWarn ? (<Alert status="warning" mt={4}>
+                <AlertIcon />
+                Please complete all fields.
+            </Alert>) : (<></>)
+
+            }
+
             <Heading size='lg' alignSelf='start' textAlign='start' pt='4'>
                 <span style={{ marginRight: '10px' }}>Major & Career Goals</span>
             </Heading>
@@ -23,29 +48,31 @@ function Major(props) {
                 <Text fontSize='md' >
                     My major is ...
                 </Text>
-                <Input placeholder='Computer science' />
+                <Input placeholder='Computer science' value={major} onChange={(e) => setMajor(e.target.value)} />
 
 
                 <Text fontSize='md'>
                     I am a ...
                 </Text>
-                <Select placeholder='Select year'>
+                <Select
+                    placeholder='Select year'
+                    onChange={handleChange}
+                >
                     <option value='option1'>Freshman</option>
                     <option value='option2'>Sophomore</option>
                     <option value='option3'>Junior</option>
-                    <option value='option3'>Senior</option>
-
+                    <option value='option4'>Senior</option>
                 </Select>
 
                 <Text fontSize='md' >
                     My goal after graduation is to be a...
                 </Text>
 
-                <Input placeholder='Software engineer' />
+                <Input placeholder='Software engineer' value={career} onChange={(e) => setCareer(e.target.value)} />
             </VStack>
 
 
-            <Button colorScheme='blue' mt='8' onClick={togglePage}>Save and continue</Button>
+            <Button colorScheme='blue' mt='8' onClick={nextPage}>Save and continue</Button>
         </Box>
 
 
