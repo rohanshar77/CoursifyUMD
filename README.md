@@ -1,4 +1,4 @@
-# CoursifyUMD: AI-Powered Course Search for UMD Courses
+# CoursifyUMD: AI-Powered Course Search
 
 ## Overview
 
