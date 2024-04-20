@@ -115,7 +115,7 @@ function LandingPage() {
     };
 
     const submit = async () => {
-        const resp = await axios.get('http://localhost:5000/search', {
+        const resp = await axios.post('http://127.0.0.1:5000/search', {
             freshman: (year == 0),
             major: major,
             industry: career,

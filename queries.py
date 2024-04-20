@@ -5,6 +5,7 @@ import openai
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+from supabase import create_client, Client
 
 load_dotenv()
 client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
@@ -29,7 +30,7 @@ async def create_pinecone_context(major, desired_industry, interests):
     data = supabase.auth.sign_in_with_password({"email": email, "password": password})
 
     input_data = {
-        "major_question": major_question
+        "major_question": major_question,
         "desired_career_question": desired_career_question,
         "interests_questions": interest_questions
     }
