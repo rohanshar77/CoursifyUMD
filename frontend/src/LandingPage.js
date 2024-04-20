@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import {
     AbsoluteCenter,
-    Box, Heading, Text, Button, Flex, Select, VStack, Input, Grid, Fade, Center, Divider
+    Box, Heading, Text, Button, Flex, Select, VStack, Input, Grid, Fade, Center, Divider, Spinner, HStack, Badge
 } from '@chakra-ui/react';
 
 import Welcome from './Flow/Welcome';
@@ -20,6 +20,7 @@ function LandingPage() {
     const [year, setYear] = useState()
     const [career, setCareer] = useState("")
     const [selectedInterests, setSelectedInterests] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
 
 
@@ -115,17 +116,23 @@ function LandingPage() {
     };
 
     const submit = async () => {
+        setIsLoading(true)
         const resp = await axios.post('http://127.0.0.1:5000/search', {
             freshman: (year == 0),
             major: major,
             industry: career,
             interests: selectedInterests
         });
+        setIsLoading(false)
 
-        setTop([...resp.data.interest_courses.slice(0, 2), ...resp.data.major_courses.slice(0, 2), ...resp.data.career_courses.slice(0, 2)])
-        setCoursesInterested(resp.data.interest_courses.slice(0, 6))
-        setCoursesMajor(resp.data.major_courses.slice(0, 6))
-        setCoursesCareer(resp.data.career_courses.slice(0, 6))
+        let interest_courses = resp.data[2]
+        let major_courses = resp.data[0]
+        let career_courses = resp.data[1]
+
+        setTop([...career_courses.slice(0, 2), ...interest_courses.slice(0, 2), ...major_courses.slice(0, 2)])
+        setCoursesInterested(interest_courses.slice(0, 6))
+        setCoursesMajor(major_courses.slice(0, 6))
+        setCoursesCareer(career_courses.slice(0, 6))
 
         setSubmitted(true)
     };
@@ -133,9 +140,15 @@ function LandingPage() {
 
     return (
         <Box height="100vh" width="100vw" display="flex" flexDirection="column" alignItems="flex-start" justifyContent="flex-start" padding="2">
-            <Text fontSize="4xl" color="orange.400" fontWeight="bold" ms='4'>
-                Coursify
-            </Text>
+            <a href="http://localhost:3000">
+                <HStack alignItems='center' justifyContent='center' display='flex'>
+                    <Text fontSize="4xl" color="red.400" fontWeight="bold" ms='4'>
+                        Coursify
+                    </Text>
+                    <Badge fontSize='lg' mt='1' colorScheme='red'>UMD</Badge>
+                </HStack>
+            </a>
+
 
             {!submitted ? (
                 <AbsoluteCenter width="">
@@ -143,7 +156,7 @@ function LandingPage() {
                     <Fade in={currentPage === 1}>{currentPage === 1 && <Major togglePage={togglePage} major={major} setMajor={setMajor}
                         career={career} setCareer={setCareer} year={year} setYear={setYear}
                     />}</Fade>
-                    <Fade in={currentPage === 2}>{currentPage === 2 && <Interests submit={submit} selectedInterests={selectedInterests} setSelectedInterests={setSelectedInterests} />}</Fade>
+                    <Fade in={currentPage === 2}>{currentPage === 2 && <Interests submit={submit} selectedInterests={selectedInterests} setSelectedInterests={setSelectedInterests} isLoading={isLoading} />}</Fade>
                 </AbsoluteCenter>
             ) : (
 
@@ -158,16 +171,28 @@ function LandingPage() {
                                 <span style={{ marginRight: '15px' }}>Your Recs</span><span style={{ fontSize: '0.9em' }}>📖</span>
                             </Text>
                             <Text fontSize='xl' fontWeight='' alignSelf="flex-start" mb='4'>We used your profile to find classes you may be interested in.</Text>
-                            <Divider mb='10' />
-                            <Text fontSize='3xl' fontWeight='semibold' alignSelf="flex-start" color='red.500'>Top Courses</Text>
-                            <CourseView courses={top}></CourseView>
-                            <Text fontSize='3xl' mt='8' fontWeight='semibold' alignSelf="flex-start" color='green.400'>Based on your interests</Text>
-                            <CourseView courses={coursesInterested}></CourseView>
-                            <Text fontSize='3xl' mt='8' fontWeight='semibold' alignSelf="flex-start" color='purple.400'>Based on your major</Text>
-                            <CourseView courses={coursesMajor}></CourseView>
-                            <Text fontSize='3xl' mt='8' fontWeight='semibold' alignSelf="flex-start" color='orange.400'>Based on your career</Text>
-                            <CourseView courses={coursesCareer}></CourseView>
+                            <Divider mb='4' />
+                            <HStack mt='8'>
+                                <Text fontSize='3xl' me='2' fontWeight='semibold' alignSelf="flex-start" color='red.500'>Top Courses</Text>
 
+                            </HStack>
+                            <CourseView courses={top}></CourseView>
+                            <HStack mt='8'>
+                                <Text fontSize='3xl' me='2' fontWeight='semibold' alignSelf="flex-start" color='orange.400'>Based on your career</Text>
+
+                            </HStack>
+                            <CourseView courses={coursesCareer}></CourseView>
+                            <HStack mt='8'>
+                                <Text fontSize='3xl' me='2' fontWeight='semibold' alignSelf="flex-start" color='green.400'>Based on your interests</Text>
+
+
+                            </HStack>
+                            <CourseView courses={coursesInterested}></CourseView>
+                            <HStack mt='8'>
+                                <Text fontSize='3xl' me='2' fontWeight='semibold' alignSelf="flex-start" color='purple.400'>Based on your major</Text>
+
+                            </HStack>
+                            <CourseView courses={coursesMajor}></CourseView>
                         </Box>
                     </Fade>
                 </Center>

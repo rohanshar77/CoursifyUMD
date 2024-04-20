@@ -28,7 +28,7 @@ function Welcome(props) {
                 <li>Customized course recommendations</li>
                 <li>Insights based on your career aspirations</li>
                 <li>Updates on new and trending courses</li>
-                <li>Interactive tools to track your learning progress</li>
+                <li>Personalized based on your interests</li>
             </ul>
             <Button colorScheme='blue' mt='8' onClick={togglePage}>Find my courses!</Button>
         </Box>

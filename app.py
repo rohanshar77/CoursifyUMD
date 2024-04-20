@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from queries import query_pinecone, filter_freshman
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/search', methods=['POST'])

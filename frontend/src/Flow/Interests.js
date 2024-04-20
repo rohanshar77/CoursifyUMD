@@ -10,7 +10,7 @@ import {
 
 
 function Interests(props) {
-    const { submit, selectedInterests, setSelectedInterests } = props
+    const { submit, selectedInterests, setSelectedInterests, isLoading } = props
     const [showWarn, setShowWarn] = useState(false)
 
     const handleSubmit = () => {
@@ -34,8 +34,8 @@ function Interests(props) {
         console.log(selectedInterests)
     };
 
-    const interests = ['Technology', 'Sports', 'Art', 'Music', 'Cooking', 'Travel', 'Fashion', 
-    'Reading', 'Volunteering', 'Writing', 'Entrepreneurship', 'Environment/Sustainability'];
+    const interests = ['Technology', 'Sports', 'Art', 'Music', 'Cooking', 'Travel', 'Fashion',
+        'Reading', 'Volunteering', 'Writing', 'Entrepreneurship', 'Sustainability'];
 
 
     return (
@@ -72,7 +72,8 @@ function Interests(props) {
             </VStack>
 
 
-            <Button colorScheme='blue' mt='8' onClick={handleSubmit}>Save and continue</Button>
+            <Button colorScheme='blue' mt='8' onClick={handleSubmit} isLoading={isLoading}
+                loadingText='Generating courses'>Save and continue</Button>
         </Box>
 
 

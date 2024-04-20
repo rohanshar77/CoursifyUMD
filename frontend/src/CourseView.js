@@ -28,14 +28,17 @@ function CourseView({ courses }) {
                             <Text fontSize="lg" fontWeight="bold">{course.id}: {course.title}</Text>
                             <Center mb='3'>
                                 <Flex>
-                                    <Badge me='4' colorScheme="gray" p="1" alignSelf="flex-start">{`GPA: ${course.average_gpa}`}</Badge>
-                                    <Badge colorScheme="gray" p="1" alignSelf="flex-start">{`Credits: ${course.credits}`}</Badge>
+                                    <Badge me='4' colorScheme="gray" p="1" alignSelf="flex-start">
+                                        {`Avg GPA: ${(course.average_gpa === -1 || course.average_gpa === 0) ? 'Unavailable' : course.average_gpa}`}
+                                    </Badge>                                    <Badge colorScheme="gray" p="1" alignSelf="flex-start">{`Credits: ${course.credits}`}</Badge>
                                 </Flex>
                             </Center>
 
                             <Text fontSize="sm" >{truncate(course.description, 400)}</Text>
-                            <Text fontWeight='semibold' fontSize="sm">{`Top Professor: ${course.top_prof} (Rating: ${course.top_rating})`}</Text>
-                        </VStack>
+                            <Text fontWeight="semibold" fontSize="sm">
+                                {`Top Professor: ${course.top_prof} `}
+                                {(course.top_rating === -1) ? '(No ratings)' : `(Rating: ${course.top_rating})`}
+                            </Text>                        </VStack>
                     </Box>
                 ))}
             </Grid>
