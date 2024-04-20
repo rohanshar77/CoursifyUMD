@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 
 import {
     AbsoluteCenter,
@@ -103,14 +104,30 @@ function LandingPage() {
         "top_rating": -1
     }]
 
+    const [top, setTop] = useState([])
+    const [coursesInterested, setCoursesInterested] = useState([])
+    const [coursesMajor, setCoursesMajor] = useState([])
+    const [coursesCareer, setCoursesCareer] = useState([])
+
     // Function to cycle through the pages
     const togglePage = () => {
         setCurrentPage((prevPage) => (prevPage === 2 ? 0 : prevPage + 1));
     };
 
-    const submit = () => {
-        setSubmitted(true)
+    const submit = async () => {
+        const resp = await axios.get('http://localhost:5000/search', {
+            freshman: (year == 0),
+            major: major,
+            industry: career,
+            interests: selectedInterests
+        });
 
+        setTop([...resp.data.interest_courses.slice(0, 2), ...resp.data.major_courses.slice(0, 2), ...resp.data.career_courses.slice(0, 2)])
+        setCoursesInterested(resp.data.interest_courses.slice(0, 6))
+        setCoursesMajor(resp.data.major_courses.slice(0, 6))
+        setCoursesCareer(resp.data.career_courses.slice(0, 6))
+
+        setSubmitted(true)
     };
 
 
@@ -143,13 +160,13 @@ function LandingPage() {
                             <Text fontSize='xl' fontWeight='' alignSelf="flex-start" mb='4'>We used your profile to find classes you may be interested in.</Text>
                             <Divider mb='10' />
                             <Text fontSize='3xl' fontWeight='semibold' alignSelf="flex-start" color='red.500'>Top Courses</Text>
-                            <CourseView courses={courses}></CourseView>
+                            <CourseView courses={top}></CourseView>
                             <Text fontSize='3xl' mt='8' fontWeight='semibold' alignSelf="flex-start" color='green.400'>Based on your interests</Text>
-                            <CourseView courses={courses}></CourseView>
+                            <CourseView courses={coursesInterested}></CourseView>
                             <Text fontSize='3xl' mt='8' fontWeight='semibold' alignSelf="flex-start" color='purple.400'>Based on your major</Text>
-                            <CourseView courses={courses}></CourseView>
+                            <CourseView courses={coursesMajor}></CourseView>
                             <Text fontSize='3xl' mt='8' fontWeight='semibold' alignSelf="flex-start" color='orange.400'>Based on your career</Text>
-                            <CourseView courses={courses}></CourseView>
+                            <CourseView courses={coursesCareer}></CourseView>
 
                         </Box>
                     </Fade>
