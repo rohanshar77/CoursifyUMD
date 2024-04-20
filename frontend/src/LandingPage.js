@@ -15,6 +15,12 @@ import CourseView from './CourseView';
 function LandingPage() {
     const [currentPage, setCurrentPage] = useState(0); // 0 for Welcome, 1 for Major, 2 for Interests
     const [submitted, setSubmitted] = useState(false);
+    const [major, setMajor] = useState("")
+    const [year, setYear] = useState()
+    const [career, setCareer] = useState("")
+    const [selectedInterests, setSelectedInterests] = useState([])
+
+
 
     // const courses = useState([])
 
@@ -102,6 +108,11 @@ function LandingPage() {
         setCurrentPage((prevPage) => (prevPage === 2 ? 0 : prevPage + 1));
     };
 
+    const submit = () => {
+        setSubmitted(true)
+
+    };
+
 
     return (
         <Box height="100vh" width="100vw" display="flex" flexDirection="column" alignItems="flex-start" justifyContent="flex-start" padding="2">
@@ -112,8 +123,10 @@ function LandingPage() {
             {!submitted ? (
                 <AbsoluteCenter width="">
                     <Fade in={currentPage === 0}>{currentPage === 0 && <Welcome togglePage={togglePage} />}</Fade>
-                    <Fade in={currentPage === 1}>{currentPage === 1 && <Major togglePage={togglePage} />}</Fade>
-                    <Fade in={currentPage === 2}>{currentPage === 2 && <Interests togglePage={togglePage} />}</Fade>
+                    <Fade in={currentPage === 1}>{currentPage === 1 && <Major togglePage={togglePage} major={major} setMajor={setMajor}
+                        career={career} setCareer={setCareer} year={year} setYear={setYear}
+                    />}</Fade>
+                    <Fade in={currentPage === 2}>{currentPage === 2 && <Interests submit={submit} selectedInterests={selectedInterests} setSelectedInterests={setSelectedInterests} />}</Fade>
                 </AbsoluteCenter>
             ) : (
 
