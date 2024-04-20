@@ -34,7 +34,8 @@ function Interests(props) {
         console.log(selectedInterests)
     };
 
-    const interests = ['Technology', 'Sports', 'Art', 'Music', 'Cooking', 'Travel'];
+    const interests = ['Technology', 'Sports', 'Art', 'Music', 'Cooking', 'Travel', 'Fashion', 
+    'Reading', 'Volunteering', 'Writing', 'Entrepreneurship', 'Environment/Sustainability'];
 
 
     return (

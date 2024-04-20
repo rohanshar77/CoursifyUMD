@@ -5,9 +5,11 @@ import openai
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+from supabase import create_client, Client
 
 load_dotenv()
 client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
+
 
 # major and desired_career are Strings, interests is list of Strings, include_grad is a boolean
 async def create_pinecone_context(major, desired_industry, interests):
@@ -18,7 +20,24 @@ async def create_pinecone_context(major, desired_industry, interests):
     for interest in interests:
         interests_questions.append(f"I am interested in {interest}")
 
+    url: str = os.environ.get("SUPABASE_URL")
+    key: str = os.environ.get("SUPABASE_KEY")
+    email: str = os.environ.get("SUPABASE_EMAIL")
+    password: str = os.environ.get("SUPABASE_PASS")
 
+    supabase: Client = create_client(url, key)
+
+    data = supabase.auth.sign_in_with_password({"email": email, "password": password})
+
+    input_data = {
+        "major_question": major_question,
+        "desired_career_question": desired_career_question,
+        "interests_questions": interests_questions
+    }
+
+    data = supabase.table('user_searches').insert(input_data).execute()
+
+    supabase.auth.sign_out()
 
     # Get the embeddings each category
     major_embedding = client.embeddings.create(input=major_question, model='text-embedding-ada-002').data[0].embedding
