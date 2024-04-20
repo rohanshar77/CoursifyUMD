@@ -27,8 +27,8 @@ function Welcome(props) {
             <ul style={{ marginLeft: '20px' }}>
                 <li>Customized course recommendations</li>
                 <li>Insights based on your career aspirations</li>
-                <li>Updates on new and trending courses</li>
-                <li>Personalized based on your interests</li>
+                <li>Courses that are offered next semester</li>
+                <li>Personalized feed based on your interests</li>
             </ul>
             <Button colorScheme='blue' mt='8' onClick={togglePage}>Find my courses!</Button>
         </Box>

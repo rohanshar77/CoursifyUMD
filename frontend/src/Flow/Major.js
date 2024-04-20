@@ -65,7 +65,7 @@ function Major(props) {
                 </Select>
 
                 <Text fontSize='md' >
-                    My goal after graduation is to be a...
+                    My goal after graduation is to become a...
                 </Text>
 
                 <Input placeholder='Software engineer' value={career} onChange={(e) => setCareer(e.target.value)} />
