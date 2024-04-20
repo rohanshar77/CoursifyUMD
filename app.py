@@ -1,9 +1,6 @@
 from flask import Flask, request, jsonify
 from queries import query_pinecone, filter_freshman
-<<<<<<< HEAD
 from flask_cors import CORS, cross_origin
-=======
->>>>>>> 44f5dc0241fb4225e282f2d4b7dd001ecebbdf04
 
 app = Flask(__name__)
 CORS(app)
