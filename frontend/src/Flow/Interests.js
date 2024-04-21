@@ -40,7 +40,7 @@ function Interests(props) {
 
     return (
 
-        <Box width='35rem' height='35rem' shadow='lg' rounded='lg' p='6' textAlign='start'>
+        <Box width='35rem' shadow='lg' rounded='lg' p='6' pb='8' textAlign='start'>
             {showWarn ? (<Alert status="warning" mt={4}>
                 <AlertIcon />
                 Please select at least one interest.

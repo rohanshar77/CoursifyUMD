@@ -16,7 +16,7 @@ function Welcome(props) {
 
     return (
 
-        <Box width='35rem' height='35rem' shadow='lg' rounded='lg' p='6' textAlign='start'>
+        <Box width='35rem' height='' shadow='lg' rounded='lg' p='6' pb='8' textAlign='start'>
             <Heading size='lg' alignSelf='start' textAlign='start' pt='4'>
                 <span style={{ marginRight: '10px' }}>Welcome</span><span style={{ fontSize: '0.9em' }}>👋</span>
             </Heading>

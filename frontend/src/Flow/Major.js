@@ -32,7 +32,7 @@ function Major(props) {
 
     return (
 
-        <Box width='35rem' minH='35rem' shadow='lg' rounded='lg' p='7' textAlign='start'>
+        <Box width='35rem' pb='8' shadow='lg' rounded='lg' p='7' textAlign='start'>
             {showWarn ? (<Alert status="warning" mt={4}>
                 <AlertIcon />
                 Please complete all fields.
